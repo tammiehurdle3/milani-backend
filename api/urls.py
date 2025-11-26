@@ -11,8 +11,10 @@ urlpatterns = [
     path('auth/signup/', views.SignUpView.as_view(), name='signup'),
     path('auth/me/', views.CurrentCreatorView.as_view(), name='current_user'),
 
-    # --- Dashboard ---
+    # --- Dashboard / Profile ---
     path('profile/', views.CreatorProfileView.as_view(), name='profile'),
+    # FIX: This line maps the frontend's API call to the backend view
+    path('profile/verify/', views.SubmitVerificationView.as_view(), name='profile_verify'), 
 
     #Campaign
     path('campaigns/', views.CampaignListView.as_view(), name='campaigns'),
