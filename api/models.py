@@ -61,6 +61,9 @@ class CreatorProfile(models.Model):
     product_shipped = models.BooleanField(default=False)
     tracking_number = models.CharField(max_length=100, blank=True, null=True)
     tracking_url = models.URLField(blank=True, null=True)
+    personalized_compensation = models.CharField(max_length=100, blank=True, null=True, help_text="Overrides default campaign rate (e.g. '$1,500')")
+    personalized_deadline = models.DateField(blank=True, null=True, help_text="Overrides default campaign deadline")
+
 
     def __str__(self): return f"{self.creator.username}'s Profile"
 
