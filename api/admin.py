@@ -5,11 +5,29 @@ from .models import Creator, CreatorProfile, Campaign, ContentSubmission, Invite
 
 class CreatorAdmin(UserAdmin):
     model = Creator
+    # 1. Update list_display to remove non-existent fields if necessary (though these look okay from your previous code)
     list_display = ('email', 'username', 'is_staff', 'date_joined')
     list_filter = ('is_active',)
     search_fields = ('email', 'username')
     ordering = ('email',)
     readonly_fields = ('date_joined', 'last_login')
+
+    # 2. CRITICAL FIX: Override the default 'fieldsets' from UserAdmin
+    # The default UserAdmin includes 'first_name' and 'last_name', which your model doesn't have.
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        ('Personal info', {'fields': ('username',)}), # Removed first_name, last_name
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
+    
+    # 3. Also override add_fieldsets (used when creating a NEW user)
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'username', 'password'), # Removed first_name, last_name
+        }),
+    )
 
 class CreatorProfileAdmin(admin.ModelAdmin):
     # Added new helper fields to list_display
